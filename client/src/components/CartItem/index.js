@@ -1,5 +1,7 @@
 import React from 'react';
-import { useStoreContext } from "../../utils/GlobalState";
+// Import the useDispatch and useSelector hooks from React-Redux
+import { useDispatch, useSelector } from 'react-redux';
+// Import removeFromCart and UpdateCartQuantity from the cartSlice
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 
