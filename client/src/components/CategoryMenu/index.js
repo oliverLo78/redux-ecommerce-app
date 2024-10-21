@@ -1,44 +1,37 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { useDispatch } from 'react-redux';
-import {
-  updateCategories,
-  updateCurrentCategory,
-} from '../../utils/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCategories, updateCurrentCategory } from '../../redux/slices/categorySlice';
 import { QUERY_CATEGORIES } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 
 function CategoryMenu() {
-  const [state, dispatch] = useStoreContext();
-
-  const { categories } = state;
+  // Use useDispatch hook for dispatching actions
+  const usedispatch = useDispatch();
+  // Select categories from the Redux store
+  const categories  = useSelector(state => state.category.categories);
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
   useEffect(() => {
     if (categoryData) {
-      dispatch({
-        type: UPDATE_CATEGORIES,
-        categories: categoryData.categories,
-      });
+      // Dispatch the redux action to update categories
+      dispatch(updateCategories(categoryData.categories));
+
+      // Store catefories in IndexedDB for offline use
       categoryData.categories.forEach((category) => {
         idbPromise('categories', 'put', category);
       });
     } else if (!loading) {
       idbPromise('categories', 'get').then((categories) => {
-        dispatch({
-          type: UPDATE_CATEGORIES,
-          categories: categories,
-        });
+        dispatch(updateCategories(categories));
       });
     }
   }, [categoryData, loading, dispatch]);
 
   const handleClick = (id) => {
-    dispatch({
-      type: UPDATE_CURRENT_CATEGORY,
-      currentCategory: id,
-    });
+    // Dispatch the Redux action to update current category
+    dispatch(updateCurrentCategory(id));
   };
 
   return (
