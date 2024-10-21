@@ -1,0 +1,33 @@
+{
+  "name": "mern-shopping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server --ignore client",
+    "develop": "concurrently \"cd server && npm run start\" \"cd client && npm start\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.11.8",
+    "@reduxjs/toolkit": "^2.2.7",
+    "@stripe/stripe-js": "^4.7.0",
+    "apollo-server-express": "^3.13.0",
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "mongoose": "^8.7.0",
+    "react-router-dom": "^6.26.2",
+    "react-scripts": "^5.0.1",
+    "stripe": "^17.1.0"
+  }
+}

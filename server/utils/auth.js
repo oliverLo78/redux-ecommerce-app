@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'mysecretsshhhhh';
+const secret = 'mysecretssshhhhh';
 const expiration = '2h';
+
+import jwtDecode from 'jwt-decode';
 
 module.exports = {
   authMiddleware: function ({ req }) {
@@ -18,7 +20,7 @@ module.exports = {
     }
 
     try {
-      const { data } = jwt.verify(token, secret, { maxAge: expiration });
+      const { data } = jwt.decode(token, secret, { maxAge: expiration });
       req.user = data;
     } catch {
       console.log('Invalid token');
