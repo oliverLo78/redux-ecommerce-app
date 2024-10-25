@@ -1,4 +1,4 @@
-// Imort createSlice: createSlice isw used to create Redux slices 
+// Import createSlice: createSlice is used to create Redux slices 
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -15,6 +15,12 @@ const productSlice = createSlice({
       state.products.push(action.payload);
       state.totalPrice += action.payload.price;
     },
+    updateProducts: (state, action) => {
+      state.products = action.payload;
+    },
+    setCurrentCategory: (state, action) => {
+      state.currentCategory = action.payload;
+    },
     removeProduct: (state, action) => {
       const index = state.products.findIndex(item => item.id === action.payload);
       state.totalPrice -= state.products[index].price;
@@ -23,5 +29,5 @@ const productSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct } = productSlice.actions;
+export const { addProduct, removeProduct, updateProducts, setCurrentCategory  } = productSlice.actions;
 export default productSlice.reducer;

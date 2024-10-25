@@ -9,14 +9,14 @@ function CategoryMenu() {
   // Use useDispatch hook for dispatching actions
   const usedispatch = useDispatch();
   // Select categories from the Redux store
-  const categories  = useSelector(state => state.category.categories);
+  const categories  = useSelector(state => state.product.categories);
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
   useEffect(() => {
     if (categoryData) {
       // Dispatch the redux action to update categories
-      dispatch(updateCategories(categoryData.categories));
+      usedispatch(updateCategories(categoryData.categories));
 
       // Store catefories in IndexedDB for offline use
       categoryData.categories.forEach((category) => {
@@ -24,31 +24,33 @@ function CategoryMenu() {
       });
     } else if (!loading) {
       idbPromise('categories', 'get').then((categories) => {
-        dispatch(updateCategories(categories));
+        usedispatch(updateCategories(categories));
       });
     }
-  }, [categoryData, loading, dispatch]);
+  }, [categoryData, loading ]);
 
   const handleClick = (id) => {
     // Dispatch the Redux action to update current category
-    dispatch(updateCurrentCategory(id));
+    usedispatch(updateCurrentCategory(id));
   };
 
   return (
     <div>
       <h2>Choose a Category:</h2>
-      {categories.map((item) => (
-        <button
-          key={item._id}
-          onClick={() => {
-            handleClick(item._id);
-          }}
-        >
-          {item.name}
-        </button>
-      ))}
+      {categories && categories.length > 0 ? (
+        categories.map((item) => (
+          <button
+            key={item._id}
+            onClick={() => handleClick(item._id)}
+          >
+            {item.name}
+          </button>
+        ))
+      ) : (
+        <p>No categories available</p>
+      )}
     </div>
-  );
+  );  
 }
 
 export default CategoryMenu;

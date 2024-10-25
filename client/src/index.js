@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import Rootreducer from './reducers';
+import store from './redux/store';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-const store = createStore(Rootreducer);
 
 ReactDOM.render(
   // Wrap the App component in a Provider component to make the Redux store available to the entire application

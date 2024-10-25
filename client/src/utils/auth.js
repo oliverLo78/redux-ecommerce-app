@@ -1,8 +1,17 @@
-import decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
+
+const token = localStorage.getItem('id_token');
+if (token) {
+  const decodedToken = jwtDecode(token);
+  // ... rest of the code using decodedToken
+} else {
+  console.warn("No token found");
+  // Handle the case when token is not present
+}
 
 class AuthService {
   getProfile() {
-    return decode(this.getToken());
+    return jwtDecode(this.getToken());
   }
 
   loggedIn() {
@@ -13,7 +22,7 @@ class AuthService {
 
   isTokenExpired(token) {
     try {
-      const decoded = decode(token);
+      const decoded = jwtDecode(token);
       if (decoded.exp < Date.now() / 1000) {
         return true;
       } else return false;

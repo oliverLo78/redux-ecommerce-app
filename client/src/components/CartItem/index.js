@@ -2,7 +2,7 @@ import React from 'react';
 // Import the useDispatch and useSelector hooks from React-Redux
 import { useDispatch } from 'react-redux';
 // Import removeFromCart and UpdateCartQuantity from the cartSlice
-import { removeFromCart, updateCartQuantity } from "../../redux/slices/cartSlice";
+import { updateCartQuantity, removeFromCart } from "../../redux/slices/cartSlice";
 import { idbPromise } from "../../utils/helpers";
 
 const CartItem = ({ item }) => {
@@ -10,7 +10,7 @@ const CartItem = ({ item }) => {
   const dispatch = useDispatch();
 
   // function to handle removing item from cart
-  const handleRemoveFromCart = (item) => {}
+  const handleRemoveFromCart = (item) => {
     dispatch(removeFromCart(item._id));
     // Remove item from IndexedDB
     idbPromise('cart', 'delete', { ...item});
@@ -59,6 +59,6 @@ const CartItem = ({ item }) => {
       </div>
     </div>
   );
-}
+};
 
 export default CartItem;

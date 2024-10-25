@@ -6,16 +6,16 @@ import { idbPromise } from '../../utils/helpers';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
 // Import Redux hooks
-import  { useDisptach, useSelector } from 'react-redux'; 
+import  { useDispatch, useSelector } from 'react-redux'; 
 // Import Redux actions
-import { toggleCart, addToMultipleToCart }  from '../../redux/slices/cartSlice';
+import { toggleCart, addMultipleToCart }  from '../../redux/slices/cartSlice';
 import './style.css';
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
   // Use dispatch from Redux to manage state
-  const dispatch = useDisptach();
+  const dispatch = useDispatch();
   // Select cart from Redux state
   const cart = useSelector((state) => state.items);
   // Select cartOpen from Redux state
@@ -35,13 +35,13 @@ const Cart = () => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
       // Dispatch addMultipleToCart action
-      dispatch(addToMultipleToCart(cart));
+      dispatch(addMultipleToCart(cart));
     }
 
     if (!cart.length) {
       getCart();
     }
-  }, [cart.length, dispatch]);
+  }, [state.cart.length, dispatch]);
 
   function handleToggleCart() {
     dispatch(toggleCart());
