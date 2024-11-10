@@ -6,51 +6,44 @@ import { QUERY_CATEGORIES } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 
 function CategoryMenu() {
-  // Use useDispatch hook for dispatching actions
-  const usedispatch = useDispatch();
-  // Select categories from the Redux store
-  const categories  = useSelector(state => state.product.categories);
-
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.category.categories || []);
+  
+  // Define categoryData and loading by calling useQuery with QUERY_CATEGORIES
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
   useEffect(() => {
     if (categoryData) {
-      // Dispatch the redux action to update categories
-      usedispatch(updateCategories(categoryData.categories));
-
-      // Store catefories in IndexedDB for offline use
+      dispatch(updateCategories(categoryData.categories));
       categoryData.categories.forEach((category) => {
         idbPromise('categories', 'put', category);
       });
     } else if (!loading) {
       idbPromise('categories', 'get').then((categories) => {
-        usedispatch(updateCategories(categories));
+        dispatch(updateCategories(categories));
       });
     }
-  }, [categoryData, loading ]);
+  }, [categoryData, loading, dispatch]);
 
   const handleClick = (id) => {
-    // Dispatch the Redux action to update current category
-    usedispatch(updateCurrentCategory(id));
+    dispatch(updateCurrentCategory(id));
   };
 
   return (
     <div>
       <h2>Choose a Category:</h2>
-      {categories && categories.length > 0 ? (
-        categories.map((item) => (
-          <button
-            key={item._id}
-            onClick={() => handleClick(item._id)}
-          >
-            {item.name}
-          </button>
-        ))
-      ) : (
-        <p>No categories available</p>
-      )}
+      {categories && categories.map((item) => (
+        <button
+          key={item._id}
+          onClick={() => {
+            handleClick(item._id);
+          }}
+        >
+          {item.name}
+        </button>
+      ))}
     </div>
-  );  
+  );
 }
 
 export default CategoryMenu;

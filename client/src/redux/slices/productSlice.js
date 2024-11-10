@@ -2,7 +2,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  categories: [],
   products: [],
+  currentCategory: null,
   totalPrice: 0,
 };
 

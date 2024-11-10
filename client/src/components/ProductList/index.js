@@ -12,7 +12,7 @@ function ProductList() {
   // Use dispatch from Redux
   const dispatch = useDispatch(); 
   // Access state from Redux
-  const { currentCategory, products } = useSelector((state) => state.products); 
+  const { currentCategory, products } = useSelector((state) => state.product.products); 
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
@@ -42,7 +42,7 @@ function ProductList() {
   return (
     <div className="my-2">
       <h2>Our Products:</h2>
-      {state.products.length ? (
+      {products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (
             <ProductItem

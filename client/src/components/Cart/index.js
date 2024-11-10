@@ -17,7 +17,7 @@ const Cart = () => {
   // Use dispatch from Redux to manage state
   const dispatch = useDispatch();
   // Select cart from Redux state
-  const cart = useSelector((state) => state.items);
+  const cart = useSelector((state) => state.cart);
   // Select cartOpen from Redux state
   const cartOpen = useSelector((state) => state.cart.cartOpen);
 
@@ -41,7 +41,7 @@ const Cart = () => {
     if (!cart.length) {
       getCart();
     }
-  }, [state.cart.length, dispatch]);
+  }, [cart.length, dispatch]);
 
   function handleToggleCart() {
     dispatch(toggleCart());
