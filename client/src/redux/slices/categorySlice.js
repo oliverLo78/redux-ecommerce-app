@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  categories: [],
-  currentCategory: null,
+  categories: [],         // Empty array to avoid undefined errors
+  currentCategory: null,  // Default to null or a meaningful fallback
 };
 
 const categorySlice = createSlice({
@@ -10,10 +10,10 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     updateCategories: (state, action) => {
-      state.categories = action.payload;
+      state.categories = action.payload;  // Update categories from API or mock data
     },
     updateCurrentCategory: (state, action) => {
-      state.currentCategory = action.payload;
+      state.currentCategory = action.payload; // Update the currently selected category
     },
   },
 });

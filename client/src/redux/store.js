@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cartReducer from './slices/cartSlice';
-import productReducer from './slices/productSlice';
 import categoryReducer from './slices/categorySlice';
+import productReducer from './slices/productSlice';
+import cartReducer from './slices/cartSlice';
+
+
 
 const store = configureStore({
     reducer: {
-    cart: cartReducer,
+    category: categoryReducer,  // Ensure this key matches how your're accessing state
     product: productReducer,
-    category: categoryReducer,
+    cart: cartReducer,
   },
 });
 

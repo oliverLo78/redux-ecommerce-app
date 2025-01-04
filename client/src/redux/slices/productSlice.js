@@ -2,10 +2,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  categories: [],
-  products: [],
-  currentCategory: null,
+  products: [], // Initialize as an empty array
   totalPrice: 0,
+  currentCategory: null,  // Optional: track the current category
 };
 
 // define productSlice using createSlice function
@@ -25,11 +24,11 @@ const productSlice = createSlice({
     },
     removeProduct: (state, action) => {
       const index = state.products.findIndex(item => item.id === action.payload);
-      state.totalPrice -= state.products[index].price;
+      state.totalPrice -= state.products[index]?.price || 0;
       state.products.splice(index, 1);
     },
   },
 });
 
-export const { addProduct, removeProduct, updateProducts, setCurrentCategory  } = productSlice.actions;
+export const { addProduct, updateProducts, setCurrentCategory, removeProduct } = productSlice.actions;
 export default productSlice.reducer;

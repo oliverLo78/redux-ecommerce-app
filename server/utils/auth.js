@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 const secret = 'mysecretssshhhhh';
 const expiration = '2h';
 
-import jwtDecode from 'jwt-decode';
-
 module.exports = {
   authMiddleware: function ({ req }) {
     // allows token to be sent via req.body, req.query, or headers
