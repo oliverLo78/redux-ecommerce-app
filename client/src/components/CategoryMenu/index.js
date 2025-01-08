@@ -32,16 +32,15 @@ function CategoryMenu() {
   return (
     <div>
       <h2>Choose a Category:</h2>
-      {categories && categories.map((item) => (
-        <button
-          key={item._id}
-          onClick={() => {
-            handleClick(item._id);
-          }}
-        >
-          {item.name}
+      {categories.length ? (
+        categories.map((category) => (
+          <button key={category._id} onClick={() => handleClick(category)}>
+            {category.name}
         </button>
-      ))}
+      ))
+  ) : (
+    <p>No categories available</p>  // Graceful fallback
+  )}
     </div>
   );
 }

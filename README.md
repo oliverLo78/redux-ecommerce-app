@@ -12,7 +12,7 @@ Remember, this module's Challenge is extra credit. It is not required for submis
 
 ## User Story
 
-```md
+```
 AS a senior engineer working on an e-commerce platform
 I WANT my platform to use Redux to manage global state instead of the Context API
 SO THAT my website's state management is taken out of the React ecosystem
@@ -20,7 +20,7 @@ SO THAT my website's state management is taken out of the React ecosystem
 
 ## Acceptance Criteria
 
-```md
+```
 GIVEN an e-commerce platform that uses Redux to manage global state
 WHEN I review the app’s store
 THEN I find that the app uses a Redux store instead of the Context API
@@ -40,7 +40,9 @@ This section reviews the web application's general appearance and functionality.
 
 The following animation shows how a user can register using the Signup page and then navigate to the Products page:
 
-![A user registers on the Signup page and then navigates to the Products page, which displays images and descriptions of products.](./Assets/22-state-homework-demo-01.gif)
+
+
+As user registers on the Signup page and then navigates to the Products page, which displays images and descriptions of products.(./Assets/22-state-homework-demo-01.gif)
 
 The following animation shows how the user can select a category, choose a product, view details about it on the product page, and add and remove it from their shopping cart:
 
