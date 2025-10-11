@@ -71,6 +71,87 @@ You'll use the Stripe API to process payments, which includes making front-end a
     }
   }
   ```
+## Testing reducer operations with Redux DevTools
+
+To interactively validate each action in the Redux store, follow the workflow documented in [`docs/redux-devtools-testing.md`](docs/redux-devtools-testing.md). The guide explains how to dispatch slice actions (for example, the cart and category operations defined under `client/src/redux`) straight from the Redux DevTools browser extension and inspect the resulting state changes in real time.
+
+# Testing Redux Operations with Redux DevTools
+
+The Redux DevTools browser extension makes it easy to exercise every reducer operation that your store exposes without needing to write ad-hoc UI wrappers. Because the app's store is configured with `configureStore` from Redux Toolkit, the DevTools extension is automatically enabled in development builds as soon as the app is running locally (`npm start`).
+
+## 1. Launch the app and open DevTools
+1. Run the client: `npm start` from the repository root.
+2. Open your browser's Redux DevTools extension while the app is loaded.
+3. On the left sidebar, switch to the **Actions** tab so you can dispatch operations.
+
+## 2. Dispatch actions from the extension
+The extension allows you to manually dispatch any action creator exported by the slices in `client/src/redux`. For example:
+
+- To test the category reducer, dispatch `category/updateCurrentCategory` with a payload that mirrors a category object from the GraphQL API.
+- To test the cart reducer, dispatch `cart/addToCart`, `cart/removeFromCart`, or `cart/toggleCart` with the same payloads your UI would normally pass.
+
+1. Click **Dispatch** in the DevTools extension.
+2. Paste an action JSON object. For example:
+   ```json
+   {
+     "type": "cart/addToCart",
+     "payload": {
+       "_id": "abc123",
+       "name": "Running Shoes",
+       "price": 89.99,
+       "purchaseQuantity": 1
+     }
+   }
+   ```
+3. Submit the dispatch and watch the **State** tab update to reflect the new cart contents.
+
+## 3. Inspect state changes
+Every action you dispatch from the DevTools records a before/after snapshot. Use the action list to:
+
+- Verify the payload shape that each reducer expects.
+- Jump back and forth between actions to time-travel and confirm that undo/redo produces the right state transitions.
+- Confirm derived selectors in your components by comparing the updated state to what renders on screen.
+
+## 4. Re-run operations from test cases
+When a failing test references an action, you can replay the same action in DevTools to inspect the live state tree. The component tests under `client/src/__tests__` show real payloads used by the UI, such as the category selection dispatch verified in `CategoryMenu.test.js`. Use those payloads as templates when dispatching by hand.
+
+## 5. Export and share action traces
+The DevTools extension supports exporting the entire session as JSON. Use the export button to capture the sequence of operations you tested. Sharing this JSON makes it easy for teammates to import the trace and reproduce the same reducer transitions locally.
+
+By following these steps, you can validate every reducer operation through Redux DevTools without modifying application code, ensuring state logic behaves as expected.
+
+## Troubleshooting
+
+## Resolving `npm ERR! ERESOLVE could not resolve`
+
+When `npm install` fails with a peer dependency conflict similar to the following output:
+
+```
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR! While resolving: mern-shopping@1.0.0
+npm ERR! Found: react@18.3.1
+...
+npm ERR! Could not resolve dependency:
+npm ERR! dev @testing-library/react-hooks@"*" from the root project
+npm ERR! Conflicting peer dependency: react@17.0.2
+```
+
+it means that the local workspace has a version of React (`18.3.1` in the example) that is incompatible with `@testing-library/react-hooks@8.0.1`. That testing helper only lists React 16 and 17 as supported peer dependencies, so npm aborts rather than installing a mismatched set of packages.
+
+This project is pinned to React 16.13.1 in `client/package.json`, so the safest fix is to realign your local installation with the versions checked into the repository. From the project root, run:
+
+```bash
+rm -rf client/node_modules package-lock.json
+cd client
+rm -rf node_modules package-lock.json
+npm install react@16.13.1 react-dom@16.13.1
+npm install
+```
+
+The first two commands remove any cached dependencies that might still reference React 18. The `npm install` commands then reinstall the exact React versions expected by the test utilities and the rest of the application.
+
+If you cannot remove React 18—for example, because another branch explicitly upgrades the client—replace `@testing-library/react-hooks` with the `renderHook` helpers that ship in `@testing-library/react@13` or newer. That modern API fully supports React 18 and avoids the peer dependency constraint altogether.
 
 ## Grading Requirements
 

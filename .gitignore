@@ -40,6 +40,14 @@ build/Release
 
 # Dependency directories
 node_modules/
+!client/node_modules/
+client/node_modules/*
+!client/node_modules/@testing-library/
+client/node_modules/@testing-library/*
+!client/node_modules/@testing-library/react/
+client/node_modules/@testing-library/react/index.js
+!client/node_modules/@testing-library/user-event/
+client/node_modules/@testing-library/user-event/index.js
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
