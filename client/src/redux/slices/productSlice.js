@@ -9,7 +9,7 @@ const initialState = {
 // define productSlice using createSlice function
 const productSlice = createSlice({
   name: 'product',
-  initialState,
+  initialState: { products: [], currentCategory: ''},
   reducers: {
     updateProducts: (state, action) => {
       state.products = action.payload;
